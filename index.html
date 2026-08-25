@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ddd3ba">
+<title>کافه ماهی — منو</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;700&family=Fraunces:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* surface — beige / blue / black */
+    --s-bg: #ddd3ba;
+    --s-text: #1c1b19;
+    --s-muted: #6b6355;
+    --s-accent: #3d6a8a;
+    --s-line: #bfae87;
+    --s-red: #c33a2b;
+
+    /* deep — red / beige / black. Torino red, not burgundy. */
+    --d-bg: #c1121f;
+    --d-text: #f2e8d3;
+    --d-muted: #d9a89a;
+    --d-accent: #1c0d0f;
+    --d-line: #1c0d0f;
+    --d-red: #c33a2b;
+  }
+
+  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  html, body{
+    margin: 0;
+    background: var(--s-bg);
+    font-family: 'Vazirmatn', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page-wrapper{
+    position: relative;
+    max-width: 560px;
+    margin: 0 auto;
+    background: var(--bg, var(--s-bg));
+    color: var(--text, var(--s-text));
+  }
+  .theme-surface{ --bg: var(--s-bg); --text: var(--s-text); --muted: var(--s-muted); --accent: var(--s-accent); --line: var(--s-line); --red: var(--s-red); }
+  .theme-deep{ --bg: var(--d-bg); --text: var(--d-text); --muted: var(--d-muted); --accent: var(--d-accent); --line: var(--d-line); --red: var(--d-red); }
+
+  .content-area{
+    position: relative;
+  }
+
+  .texture{
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: repeating-linear-gradient(
+      115deg,
+      var(--text) 0px, var(--text) 1px,
+      transparent 1px, transparent 22px
+    );
+  }
+
+  .menu-content{
+    position: relative;
+    padding: calc(50px + env(safe-area-inset-top)) 24px calc(64px + env(safe-area-inset-bottom));
+  }
+
+  .deep-layer{
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    pointer-events: none;
+    -webkit-mask-image: url(#revealMask);
+    mask-image: url(#revealMask);
+  }
+
+  /* ---------- header ---------- */
+  .site-header{
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .cafe-name{
+    font-family: 'Lalezar', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.6rem, 12vw, 3.4rem);
+    line-height: 1.35;
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+  .logo{
+    width: 64px; height: 64px;
+    margin: 26px auto 0;
+    display: block;
+    animation: breathe 3.6s ease-in-out infinite;
+  }
+  @keyframes breathe{
+    0%, 100%{ opacity: 0.88; transform: scale(0.97); }
+    50%{ opacity: 1; transform: scale(1.02); }
+  }
+  .visually-hidden{
+    position: absolute; width: 1px; height: 1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+  }
+
+  /* ---------- sections ---------- */
+  .menu-section{ margin-bottom: 40px; scroll-margin-top: 56px; }
+  .menu-section:last-of-type{ margin-bottom: 0; }
+
+  .section-title{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin: 0 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .item{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 13px;
+    padding-bottom: 13px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .item:last-child{ border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .item-name{
+    font-weight: 700;
+    font-size: 1rem;
+    overflow-wrap: break-word;
+    min-width: 0;
+  }
+  .item-price{
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .item-dual{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 13px;
+    padding-bottom: 13px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .item-dual:last-child{ border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .item-dual .item-name{ font-size: 1rem; }
+  .dual-price{ display: flex; gap: 18px; flex-shrink: 0; }
+  .dp{ display: flex; flex-direction: column; align-items: center; }
+  .dp b{ font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.02rem; }
+  .dp small{ font-size: 0.62rem; color: var(--muted); margin-top: 2px; }
+
+  .fish-row{
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin: 34px auto;
+    opacity: 0.5;
+  }
+  .fish-row svg{
+    width: 30px; height: 15px;
+    color: var(--muted);
+  }
+
+  /* ---------- category nav ---------- */
+  .category-nav{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    background: var(--s-bg);
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--s-line);
+  }
+  .category-nav::-webkit-scrollbar{ display: none; }
+  .category-nav button{
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--s-text);
+    background: transparent;
+    border: 1px solid var(--s-line);
+    border-radius: 999px;
+    padding: 7px 16px;
+    white-space: nowrap;
+  }
+  .category-nav button.active{
+    background: var(--s-red);
+    border-color: var(--s-red);
+    color: var(--s-bg);
+  }
+</style>
+</head>
+<body>
+
+  <div class="page-wrapper theme-surface" id="wrapper">
+
+    <nav class="category-nav" dir="rtl" lang="fa" aria-label="دسته‌بندی منو">
+      <button type="button" data-target="section-coffee">قهوه</button>
+      <button type="button" data-target="section-hot">نوشیدنی گرم</button>
+      <button type="button" data-target="section-cold">نوشیدنی سرد</button>
+    </nav>
+
+    <div class="content-area" id="contentArea">
+      <div id="menu-content" class="menu-content" dir="rtl" lang="fa">
+      <div class="texture" aria-hidden="true"></div>
+
+      <header class="site-header">
+        <h1 class="cafe-name">کافه ماهی</h1>
+        <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="46" fill="var(--red)"/>
+          <circle cx="50" cy="50" r="35" fill="none" stroke="var(--bg)" stroke-width="1.4" stroke-opacity="0.35"/>
+          <circle cx="50" cy="50" r="24" fill="none" stroke="var(--bg)" stroke-width="1.4" stroke-opacity="0.35"/>
+          <path d="M20,50 Q24,33 48,31 Q66,30 76,42 L90,33 L82,50 L90,67 L76,58 Q66,70 48,69 Q24,67 20,50 Z" fill="var(--accent)"/>
+          <circle cx="31" cy="45" r="2.6" fill="var(--bg)"/>
+        </svg>
+        <span class="visually-hidden">نکته: هر جای منو را لمس کنید تا آشکار شود.</span>
+      </header>
+
+      <section class="menu-section" id="section-coffee">
+        <h2 class="section-title">قهوه</h2>
+
+        <div class="item-dual"><div class="item-name">اسپرسو</div><div class="dual-price"><span class="dp"><b>۱۰۰</b><small>تک</small></span><span class="dp"><b>۱۶۰</b><small>دوبل</small></span></div></div>
+        <div class="item-dual"><div class="item-name">آمریکانو</div><div class="dual-price"><span class="dp"><b>۱۲۰</b><small>تک</small></span><span class="dp"><b>۲۰۰</b><small>دوبل</small></span></div></div>
+        <div class="item-dual"><div class="item-name">لاته</div><div class="dual-price"><span class="dp"><b>۱۹۰</b><small>تک</small></span><span class="dp"><b>۲۳۰</b><small>دوبل</small></span></div></div>
+        <div class="item-dual"><div class="item-name">موکا</div><div class="dual-price"><span class="dp"><b>۲۲۰</b><small>تک</small></span><span class="dp"><b>۲۶۰</b><small>دوبل</small></span></div></div>
+        <div class="item-dual"><div class="item-name">آیس آمریکانو</div><div class="dual-price"><span class="dp"><b>۲۰۰</b><small>تک</small></span><span class="dp"><b>۲۴۰</b><small>دوبل</small></span></div></div>
+        <div class="item-dual"><div class="item-name">آیس لاته</div><div class="dual-price"><span class="dp"><b>۲۲۰</b><small>تک</small></span><span class="dp"><b>۲۶۵</b><small>دوبل</small></span></div></div>
+        <div class="item-dual"><div class="item-name">آیس موکا</div><div class="dual-price"><span class="dp"><b>۲۶۰</b><small>تک</small></span><span class="dp"><b>۲۸۵</b><small>دوبل</small></span></div></div>
+        <div class="item"><div class="item-name">کاپوچینو</div><div class="item-price">۱۹۵</div></div>
+        <div class="item"><div class="item-name">آفوگاتو</div><div class="item-price">۲۶۰</div></div>
+      </section>
+
+      <div class="fish-row" aria-hidden="true">
+        <svg viewBox="0 0 100 46"><path d="M4 23 Q34 2 66 23 Q34 44 4 23 Z" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="54" cy="18" r="3" fill="currentColor"/><path d="M66 23 L94 9 L86 23 L94 37 Z" fill="currentColor"/></svg>
+        <svg viewBox="0 0 100 46"><path d="M4 23 Q34 2 66 23 Q34 44 4 23 Z" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="54" cy="18" r="3" fill="currentColor"/><path d="M66 23 L94 9 L86 23 L94 37 Z" fill="currentColor"/></svg>
+        <svg viewBox="0 0 100 46"><path d="M4 23 Q34 2 66 23 Q34 44 4 23 Z" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="54" cy="18" r="3" fill="currentColor"/><path d="M66 23 L94 9 L86 23 L94 37 Z" fill="currentColor"/></svg>
+      </div>
+
+      <section class="menu-section" id="section-hot">
+        <h2 class="section-title">چای و نوشیدنی گرم</h2>
+        <div class="item"><div class="item-name">چای سیاه (در لیوان)</div><div class="item-price">۸۵</div></div>
+        <div class="item"><div class="item-name">چای سیاه (در قوری)</div><div class="item-price">۱۵۰</div></div>
+        <div class="item"><div class="item-name">چای کرک</div><div class="item-price">۱۷۰</div></div>
+        <div class="item"><div class="item-name">چای ماسالا</div><div class="item-price">۱۶۰</div></div>
+        <div class="item"><div class="item-name">هات چاکلت</div><div class="item-price">۱۸۵</div></div>
+        <div class="item"><div class="item-name">دمنوش گیاهی</div><div class="item-price">۱۸۵</div></div>
+        <div class="item"><div class="item-name">شیر عسل دارچین</div><div class="item-price">۱۶۰</div></div>
+        <div class="item"><div class="item-name">شیر طلایی</div><div class="item-price">۱۷۰</div></div>
+        <div class="item"><div class="item-name">شیر کاکائو</div><div class="item-price">۱۸۰</div></div>
+        <div class="item"><div class="item-name">شیر لوتوس</div><div class="item-price">۲۱۰</div></div>
+      </section>
+
+      <div class="fish-row" aria-hidden="true">
+        <svg viewBox="0 0 100 46"><path d="M4 23 Q34 2 66 23 Q34 44 4 23 Z" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="54" cy="18" r="3" fill="currentColor"/><path d="M66 23 L94 9 L86 23 L94 37 Z" fill="currentColor"/></svg>
+        <svg viewBox="0 0 100 46"><path d="M4 23 Q34 2 66 23 Q34 44 4 23 Z" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="54" cy="18" r="3" fill="currentColor"/><path d="M66 23 L94 9 L86 23 L94 37 Z" fill="currentColor"/></svg>
+        <svg viewBox="0 0 100 46"><path d="M4 23 Q34 2 66 23 Q34 44 4 23 Z" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="54" cy="18" r="3" fill="currentColor"/><path d="M66 23 L94 9 L86 23 L94 37 Z" fill="currentColor"/></svg>
+      </div>
+
+      <section class="menu-section" id="section-cold">
+        <h2 class="section-title">نوشیدنی‌های سرد</h2>
+        <div class="item"><div class="item-name">شیک شکلات</div><div class="item-price">۳۰۰</div></div>
+        <div class="item"><div class="item-name">شیک بیسکوییت</div><div class="item-price">۳۰۰</div></div>
+        <div class="item"><div class="item-name">شیک کره بادام زمینی</div><div class="item-price">۳۲۰</div></div>
+        <div class="item"><div class="item-name">موهیتو سبز / قرمز</div><div class="item-price">۲۶۰ / ۲۸۵</div></div>
+        <div class="item"><div class="item-name">لیموناد</div><div class="item-price">۲۱۰</div></div>
+        <div class="item"><div class="item-name">اسموتی انبه</div><div class="item-price">۳۰۰</div></div>
+        <div class="item"><div class="item-name">آب طالبی</div><div class="item-price">۱۷۵</div></div>
+        <div class="item"><div class="item-name">آب هندوانه</div><div class="item-price">۱۵۰</div></div>
+        <div class="item"><div class="item-name">گلاب</div><div class="item-price">۱۵۰</div></div>
+        <div class="item"><div class="item-name">بیدمشک نسترن</div><div class="item-price">۱۴۰</div></div>
+        <div class="item"><div class="item-name">کاسنی</div><div class="item-price">۱۴۰</div></div>
+        <div class="item"><div class="item-name">سکنجبین خیار</div><div class="item-price">۱۶۵</div></div>
+        <div class="item"><div class="item-name">به‌لیمو</div><div class="item-price">۱۴۵</div></div>
+        <div class="item"><div class="item-name">ویمتو</div><div class="item-price">۱۷۰</div></div>
+      </section>
+    </div>
+
+    <div class="deep-layer theme-deep" id="deepLayer" aria-hidden="true"></div>
+
+    </div>
+
+  </div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <mask id="revealMask">
+        <rect id="maskBase" x="0" y="0" width="0" height="0" fill="black"/>
+        <g id="maskGroup"></g>
+      </mask>
+    </defs>
+  </svg>
+
+<script>
+(function(){
+  "use strict";
+
+  var SVG_NS = "http://www.w3.org/2000/svg";
+  var JITTER = 14;
+  var MOVE_THRESHOLD = 12;
+
+  var wrapper = document.getElementById('wrapper');
+  var contentArea = document.getElementById('contentArea');
+  var content = document.getElementById('menu-content');
+  var deepLayer = document.getElementById('deepLayer');
+  var maskBase = document.getElementById('maskBase');
+  var maskGroup = document.getElementById('maskGroup');
+
+  var clone = content.cloneNode(true);
+  clone.removeAttribute('id');
+  deepLayer.appendChild(clone);
+
+  var revealed = {}; // shard index -> true. Survives a rebuild on resize.
+
+  // small deterministic pseudo-random generator — same seed always gives
+  // the same result, so the shatter pattern is stable across reloads
+  function pseudoRandom(seed){
+    var x = Math.sin(seed * 12.9898) * 43758.5453;
+    return x - Math.floor(x);
+  }
+  function jitterPoint(seed, value, amount){
+    return value + (pseudoRandom(seed) - 0.5) * 2 * amount;
+  }
+
+  function buildShards(){
+    maskGroup.innerHTML = "";
+
+    var width = contentArea.clientWidth;
+    var height = contentArea.scrollHeight;
+    maskBase.setAttribute('width', width);
+    maskBase.setAttribute('height', height);
+
+    var originRect = contentArea.getBoundingClientRect();
+    var originX = originRect.left + window.scrollX;
+    var originY = originRect.top + window.scrollY;
+
+    var blocks = content.querySelectorAll('.item, .item-dual, .section-title, .fish-row, .site-header');
+
+    blocks.forEach(function(el, i){
+      el.setAttribute('data-shard-index', i);
+
+      var r = el.getBoundingClientRect();
+      var x0 = r.left + window.scrollX - originX;
+      var y0 = r.top + window.scrollY - originY;
+      var x1 = x0 + r.width;
+      var y1 = y0 + r.height;
+      var midX = (x0 + x1) / 2;
+      var midY = (y0 + y1) / 2;
+      var j = Math.min(JITTER, r.height * 0.35, r.width * 0.1);
+      var s = (i + 1) * 7;
+
+      var pts = [
+        [jitterPoint(s + 1, x0, j), jitterPoint(s + 2, y0, j)],
+        [jitterPoint(s + 3, midX, j), jitterPoint(s + 4, y0, j)],
+        [jitterPoint(s + 5, x1, j), jitterPoint(s + 6, y0, j)],
+        [jitterPoint(s + 7, x1, j), jitterPoint(s + 8, midY, j)],
+        [jitterPoint(s + 9, x1, j), jitterPoint(s + 10, y1, j)],
+        [jitterPoint(s + 11, midX, j), jitterPoint(s + 12, y1, j)],
+        [jitterPoint(s + 13, x0, j), jitterPoint(s + 14, y1, j)],
+        [jitterPoint(s + 15, x0, j), jitterPoint(s + 16, midY, j)]
+      ];
+
+      var poly = document.createElementNS(SVG_NS, 'polygon');
+      poly.setAttribute('points', pts.map(function(p){ return p[0] + ',' + p[1]; }).join(' '));
+      poly.setAttribute('class', 'shard');
+      poly.setAttribute('fill', 'white');
+      poly.setAttribute('fill-opacity', revealed[i] ? '1' : '0');
+      poly.setAttribute('data-poly-index', i);
+      maskGroup.appendChild(poly);
+    });
+  }
+
+  function toggleShard(index){
+    var poly = maskGroup.querySelector('[data-poly-index="' + index + '"]');
+    if (!poly) return;
+    if (revealed[index]){
+      revealed[index] = false;
+      poly.setAttribute('fill-opacity', '0');
+    } else {
+      revealed[index] = true;
+      poly.setAttribute('fill-opacity', '1');
+    }
+  }
+
+  function start(){
+    buildShards();
+  }
+  if (document.fonts && document.fonts.ready){
+    document.fonts.ready.then(start);
+  } else {
+    setTimeout(start, 300);
+  }
+
+  var resizeTimer = null;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(buildShards, 250);
+  });
+
+  var startX = 0, startY = 0, dragged = false;
+
+  wrapper.addEventListener('touchstart', function(e){
+    var t = e.touches[0];
+    startX = t.clientX;
+    startY = t.clientY;
+    dragged = false;
+  }, { passive: true });
+
+  wrapper.addEventListener('touchmove', function(e){
+    var t = e.touches[0];
+    if (Math.abs(t.clientX - startX) > MOVE_THRESHOLD || Math.abs(t.clientY - startY) > MOVE_THRESHOLD){
+      dragged = true;
+    }
+  }, { passive: true });
+
+  wrapper.addEventListener('touchend', function(e){
+    if (dragged) return;
+    var t = e.changedTouches[0];
+    var hitEl = document.elementFromPoint(t.clientX, t.clientY);
+    if (!hitEl) return;
+    var block = hitEl.closest('[data-shard-index]');
+    if (!block) return;
+    toggleShard(block.getAttribute('data-shard-index'));
+  }, { passive: true });
+
+  // category nav — tap to jump, and highlight whichever section is in view
+  var navButtons = document.querySelectorAll('.category-nav button');
+
+  navButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = document.getElementById(btn.getAttribute('data-target'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  if ('IntersectionObserver' in window){
+    var sectionObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        var id = entry.target.id;
+        navButtons.forEach(function(btn){
+          var isActive = btn.getAttribute('data-target') === id;
+          btn.classList.toggle('active', isActive);
+          if (isActive){
+            btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          }
+        });
+      });
+    }, { rootMargin: '-56px 0px -70% 0px' });
+
+    content.querySelectorAll('.menu-section').forEach(function(section){
+      sectionObserver.observe(section);
+    });
+  }
+
+})();
+</script>
+
+<style>
+  .shard{
+    transition: fill-opacity 0.35s ease;
+  }
+</style>
+
+</body>
+</html>
